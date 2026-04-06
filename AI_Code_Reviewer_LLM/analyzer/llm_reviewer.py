@@ -10,7 +10,7 @@ API_KEY = os.getenv("OPENROUTER_API_KEY")
 def review_code(code: str, language: str = "Python"):
     try:
         if not API_KEY:
-            print("❌ API key not found. Check .env file.")
+            print("❌ API key not found. Check environment variables.")
             return None
 
         prompt = generate_prompt(code, language)
@@ -19,12 +19,10 @@ def review_code(code: str, language: str = "Python"):
             "https://openrouter.ai/api/v1/chat/completions",
             headers={
                 "Authorization": f"Bearer {API_KEY}",
-                "Content-Type": "application/json",
-                "HTTP-Referer": "http://localhost",
-                "X-Title": "AI Code Reviewer"
+                "Content-Type": "application/json"
             },
             json={
-                "model": "meta-llama/llama-3-8b-instruct",  # ✅ WORKING
+                "model": "meta-llama/llama-3-8b-instruct",
                 "messages": [
                     {"role": "user", "content": prompt}
                 ]
@@ -33,15 +31,21 @@ def review_code(code: str, language: str = "Python"):
 
         data = response.json()
 
-        # DEBUG
-        # print(data)
+        # 🔥 DEBUG LOG (VERY IMPORTANT)
+        print("🔍 API RESPONSE:", data)
 
+        # ❌ Handle API error
         if "error" in data:
-            print("❌ API Error:", data["error"]["message"])
+            print("❌ API Error:", data["error"])
+            return None
+
+        # ❌ Handle missing response
+        if "choices" not in data or len(data["choices"]) == 0:
+            print("❌ No choices in response")
             return None
 
         return data["choices"][0]["message"]["content"]
 
     except Exception as e:
-        print(f"Error during code review: {str(e)}")
+        print(f"❌ Error during code review: {str(e)}")
         return None
