@@ -30,7 +30,7 @@ export function Footer() {
           {/* Right - Social */}
           <div className="flex gap-4 justify-start md:justify-end">
             <a
-              href="https://github.com"
+              href="https://github.com/Laxit85"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#8B949E] hover:text-[#E6EDF3] transition-colors"
@@ -39,7 +39,7 @@ export function Footer() {
               <Github className="w-5 h-5" />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/laxit-jangid-8588a3257/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#8B949E] hover:text-[#E6EDF3] transition-colors"
