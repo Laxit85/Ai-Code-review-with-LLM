@@ -12,10 +12,10 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS for frontend
+# ✅ FIXED CORS (IMPORTANT)
 app.add_middleware(
     CORSMiddleware,
-allow_origins=["http://localhost:5173", "http://localhost:3000", "http://localhost:5174"],  # Vite ports
+    allow_origins=["*"],   # 🔥 allow all (for now)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -27,6 +27,10 @@ class ReviewRequest(BaseModel):
 
 class ReviewResponse(BaseModel):
     review: str
+
+@app.get("/")
+async def root():
+    return {"message": "AI Code Reviewer API is running 🚀"}  # ✅ added (nice for browser check)
 
 @app.post("/review", response_model=ReviewResponse)
 async def review_endpoint(request: ReviewRequest):
@@ -45,4 +49,3 @@ async def health():
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
-

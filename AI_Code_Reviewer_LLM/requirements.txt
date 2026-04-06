@@ -1,5 +1,4 @@
+fastapi
+uvicorn
 requests
 python-dotenv
-fastapi
-uvicorn[standard]
-
